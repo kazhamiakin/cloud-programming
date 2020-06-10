@@ -3,9 +3,8 @@ package com.example.shopcatalog;
 import java.util.Collections;
 
 import org.hamcrest.Matchers;
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -15,7 +14,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -25,7 +23,6 @@ import com.example.shopcatalog.domain.Product;
 import com.example.shopcatalog.service.ProductService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-@RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
 public class ShopCatalogApplicationTestsMockito {
@@ -38,7 +35,7 @@ public class ShopCatalogApplicationTestsMockito {
 
 	private Product product;
 	
-	@Before
+	@BeforeEach
 	public void tearUp() {
 		product = new Product();
 		product.setAvailability(10);
@@ -64,8 +61,8 @@ public class ShopCatalogApplicationTestsMockito {
 
 		// test creation
 		RequestBuilder postRequest = MockMvcRequestBuilders.post("/api/products")
-				.contentType(MediaType.APPLICATION_JSON_UTF8)
-				.accept(MediaType.APPLICATION_JSON_UTF8)
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON)
 				.content(new ObjectMapper().writeValueAsString(product));
 		mockMvc.perform(postRequest)
 			.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
@@ -73,7 +70,7 @@ public class ShopCatalogApplicationTestsMockito {
 	
 		// test list
 		RequestBuilder listRequest = MockMvcRequestBuilders.get("/api/products")
-			.contentType(MediaType.APPLICATION_JSON_UTF8);
+			.contentType(MediaType.APPLICATION_JSON);
 		mockMvc.perform(listRequest)
 			.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
 			.andExpect(MockMvcResultMatchers.jsonPath("$.content", Matchers.hasSize(1)))
@@ -81,7 +78,7 @@ public class ShopCatalogApplicationTestsMockito {
 		
 		// test list with category
 		listRequest = MockMvcRequestBuilders.get("/api/products/category/test")
-			.contentType(MediaType.APPLICATION_JSON_UTF8);
+			.contentType(MediaType.APPLICATION_JSON);
 		mockMvc.perform(listRequest)
 			.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
 			.andExpect(MockMvcResultMatchers.jsonPath("$.content", Matchers.hasSize(1)))
@@ -89,7 +86,7 @@ public class ShopCatalogApplicationTestsMockito {
 
 		// test list with wrong category
 		listRequest = MockMvcRequestBuilders.get("/api/products/category/test2")
-				.contentType(MediaType.APPLICATION_JSON_UTF8);
+				.contentType(MediaType.APPLICATION_JSON);
 			mockMvc.perform(listRequest)
 				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
 				.andExpect(MockMvcResultMatchers.jsonPath("$.content", Matchers.hasSize(0)));

@@ -1,22 +1,20 @@
 package com.example.shopcatalog;
 
 import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import com.example.shopcatalog.data.ProductRepository;
 import com.example.shopcatalog.domain.Product;
 import com.example.shopcatalog.service.ProductService;
 
-
-@RunWith(SpringRunner.class)
 @SpringBootTest
+@AutoConfigureMockMvc
 public class ShopCatalogServiceTests {
 
 	@Autowired
@@ -24,7 +22,7 @@ public class ShopCatalogServiceTests {
 	@Autowired
 	private ProductRepository repo;
 	
-	@Before
+	@BeforeEach
 	public void tearUp() {
 		repo.deleteAll();
 	}

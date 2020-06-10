@@ -4,27 +4,23 @@ import java.util.List;
 import java.util.Optional;
 
 import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import com.example.shopcatalog.data.ProductRepository;
 import com.example.shopcatalog.domain.Product;
 
-
-@RunWith(SpringRunner.class)
-@SpringBootTest
+@DataMongoTest
 public class ShopCatalogDataTests {
 
 	@Autowired
 	private ProductRepository repo;
 	
-	@Before
+	@BeforeEach
 	public void tearUp() {
 		repo.deleteAll();
 	}
